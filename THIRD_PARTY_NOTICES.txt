@@ -3,15 +3,18 @@ Third-party agent skills
 Anthropic skill-creator
 Source: https://github.com/anthropics/skills
 Commit: 34040c9c568585f6929bedeaad110ad08f079624
-Files: .agents/skills/skill-creator/
-License: Apache License 2.0; see .agents/skills/skill-creator/LICENSE.txt.
+Installed files: .agents/skills/skill-creator/ beneath the APM consumer root
+                (packages/development/ when restored there).
+License: Apache License 2.0; see the installed skill-creator/LICENSE.txt.
 
 Kepano's Obsidian skills
 Source: https://github.com/kepano/obsidian-skills
 Commit: 8ccef29ae8624eccc734e77ced4a6e54baf5d83a
-Files: .agents/skills/defuddle/, .agents/skills/json-canvas/,
-       .agents/skills/obsidian-bases/, .agents/skills/obsidian-cli/,
-       .agents/skills/obsidian-markdown/
+Installed files: .agents/skills/defuddle/, .agents/skills/json-canvas/,
+                 .agents/skills/obsidian-bases/, .agents/skills/obsidian-cli/,
+                 .agents/skills/obsidian-markdown/ beneath the APM consumer root.
+                 The selected runtime or development package determines which
+                 of these skills are installed.
 
 MIT License
 
@@ -35,11 +38,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
-GitHub Awesome Copilot ADR skill and template
+GitHub Awesome Copilot ADR skill
 Source: https://github.com/github/awesome-copilot
 Commit: fb4eb04fcbd30de50052b1155d81167393dfb5aa
-Files: .agents/skills/create-architectural-decision-record/,
-       docs/adr/template.md
+Installed files: .agents/skills/create-architectural-decision-record/ beneath
+                 the APM consumer root (packages/development/ when restored there).
+The original Clew notice also covered docs/adr/template.md. That application
+template is not bundled in clew-skills; the existing Clew ADR lifecycle remains
+outside this extraction.
 
 MIT License
 
