@@ -94,14 +94,5 @@ nonzero. Errors can leave partial files; inspect staging before reusing it.
   No resource sandbox, concurrency, transactional output, or stale-file cleanup
   is provided. Use bounded, authorized inputs and inspect every reported failure.
 
-## Run the synthetic suite
-
-From the repository root:
-
-```powershell
-& '.\skills\content-ingest\.venv\Scripts\python.exe' -m unittest discover -s '.\skills\content-ingest\tests' -v
-```
-
-Tests generate their own PDFs beneath `tests/.runs`, remove their work afterward,
-and never require private courses, learner records, internet access, or the
-original repository. Dependencies must already be installed.
+On Windows, use short output and asset paths: deeply nested destinations can
+exceed the native path-length limit under the current OS/process settings.

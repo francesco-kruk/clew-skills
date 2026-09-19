@@ -27,7 +27,7 @@ Changes are limited to packaging and closely coupled correctness:
 - Nonzero status for document failures; escaped diagnostics for filenames with
   Rich markup; clear invalid/encrypted/range errors; context-managed PDF closure.
 - Avoid empty crops outside the page and detect unextractable image references.
-- Synthetic regression tests and extraction-to-course publishing boundaries.
+- Explicit extraction-to-course publishing boundaries.
 
 Chapter/prose/formula/exercise heuristics, page ordering, default options, output
 names for ordinary inputs, metadata, 150 DPI, and the image-first strategy remain.
