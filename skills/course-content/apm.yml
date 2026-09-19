@@ -1,6 +1,6 @@
 name: course-content
-version: 2.0.0
-description: Bounded portable Markdown reading with optional legacy course validation.
+version: 3.0.0
+description: Read, author and validate the Clew course structure in an Obsidian vault.
 author: Clew contributors
 license: MIT
 type: hybrid

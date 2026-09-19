@@ -1,11 +1,11 @@
 # Clew skills
 
-Portable learning skills from [Clew](https://github.com/francesco-kruk/clew),
+Learning skills from [Clew](https://github.com/francesco-kruk/clew),
 shared as individual [APM](https://github.com/microsoft/apm) packages.
 
 | Skill | Purpose |
 | --- | --- |
-| [course-content](skills/course-content/SKILL.md) | Read selected portable Markdown; optionally validate legacy course packages. |
+| [course-content](skills/course-content/SKILL.md) | Read, author and validate the Clew course structure for Obsidian, with small sections, PDF provenance and shared concepts. |
 | [content-ingest](skills/content-ingest/SKILL.md) | Image-first PDF extraction into local Markdown and assets. |
 | [digest](skills/digest/SKILL.md) | Standalone, faithful PDF-to-Markdown conversion; optional Clew/Obsidian export. |
 | [learner-model](skills/learner-model/SKILL.md) | Keep one grounded learner summary and useful dated session notes; recall alone makes no writes. |
@@ -36,21 +36,23 @@ This repository has no root aggregate package; install skills by their paths.
 
 ## Student workflow
 
-A teacher uses digest in the [teacher workspace](https://github.com/francesco-kruk/clew-content)
-to convert an authorized PDF, reviews the output, and commits the complete
-portable bundle. The student creates their own external local vault and manually
-copies the whole bundle, preserving
-notes, images and reports. The student clones Clew, restores its pinned skills,
+Teacher-reviewed Clew content lives in an external Obsidian vault under
+`courses\<course>\`, with shared canonical concepts under `concepts\`.
+The student copies authorized course notes, originals, assets, support records
+and referenced shared concepts, preserving their vault-relative paths.
+Existing shared definitions are not overwritten without an author decision.
+The student clones Clew, restores its pinned skills,
 and configures that vault path once in Clew's ignored `.clew.local.json`
 (`version: 1`, `vault: <absolute path>`). Configuration alone creates no learning
 records. Follow [Clew's setup instructions](https://github.com/francesco-kruk/clew)
 for APM restore and the `src.vault.cli configure` / `status` commands.
-No course importer, catalog, manifest, hub or running Obsidian is needed.
+No course importer, catalog or running Obsidian is needed for agent reading.
 
-`course-content` reads the selected bundle/note as-is, using ordinary relative
-Markdown links and existing wikilinks. An index/README/hub is useful when present,
-never required. It cites exact notes/headings and reports unknown metadata rather
-than inventing concepts. A course-only lookup does not open the learner model.
+`course-content` recognizes the single `clew/v1` structure. Course and chapter
+indexes locate complete Markdown sections; shared concept notes own their short
+definitions and cite supporting sections. It uses vault-relative links, cites
+exact notes/headings and reports unknown metadata rather than inventing concepts.
+A course-only lookup does not open the learner model.
 Copied teacher sources stay read-only unless the student explicitly asks to edit
 them; personal work stays separate.
 
@@ -99,6 +101,31 @@ workspace, then run `apm install --frozen --target copilot,agent-skills`.
 Do not hand-edit generated consumer files or replace dependency pins to bypass
 that local-install limitation.
 
+## Clew course structure
+
+`course-content` 3.0 defines [one Clew structure](skills/course-content/references/clew-structure.md),
+not optional formats or compatibility/migration modes. Course/chapter `children`
+lists are the reading-order authority; previous/next links and visible indexes
+are derived views. Flat frontmatter supplies stable IDs, summaries, navigation
+and explicit links to shared definitions, prerequisites and related concepts.
+These relationships describe content, not learner mastery.
+
+The [provenance contract](skills/course-content/references/provenance.md)
+connects sections to exact source PDF pages and records fidelity limitations.
+One whole-course PDF or separate chapter PDFs can map to the same Markdown
+structure. Humans can open the originals; agents read selected Markdown first,
+without opening PDFs or support reports on every lookup.
+
+The [validator](skills/course-content/references/validation.md) checks the selected
+course and its linked concepts. Valid drafts pass with warnings; `--strict`
+requires verified sections and resolved page coverage. Run it through the
+consuming Clew project's `uv` environment.
+
+`digest` and `content-ingest` have not yet been aligned with this structure.
+Their producer guidance below is unchanged except where it referred to the
+removed course-content APIs. Do not use their old course-export instructions
+as a conforming Clew producer; that alignment is subsequent work.
+
 ## Standalone PDF conversion
 
 Ask digest to convert an authorized PDF into an external output directory, for
@@ -130,18 +157,18 @@ skill or substitutes another format.
 
 | Requested output | Separately required guidance |
 | --- | --- |
-| Explicit legacy Clew hub/package export | `course-content` and its preserved structure/distribution contracts, including its Obsidian note-writing prerequisites. |
+| Clew course generation | Must follow `course-content`'s single structure; producer integration is pending the digest rewrite. |
 | Obsidian-specific notes | `obsidian-markdown`; no Clew package or running app required. |
 | JSON Canvas overview | `json-canvas`, with an explicit destination root; not created merely because a graph might be useful. |
 
-If a prerequisite is missing, digest explains it and pauses that mode. To choose
-legacy Clew export, the user can separately install its package:
+If a prerequisite is missing, digest explains it and pauses that mode.
+Install the course skill separately for Clew reading, authoring and validation:
 
 ```powershell
 apm install francesco-kruk/clew-skills/skills/course-content --target copilot,agent-skills
 ```
 
-That optional package still brings its existing `obsidian-markdown`, `json-canvas`,
+That package still brings its existing `obsidian-markdown`, `json-canvas`,
 and `obsidian-cli` dependencies; it is **not** needed for standalone digest.
 Obsidian-only or Canvas-only users can separately install the corresponding
 `kepano/obsidian-skills/skills/obsidian-markdown` or
@@ -167,19 +194,22 @@ Do not install every PDF backend, OCR engine, or another skill's requirements fo
 standalone digest. MarkItDown is optional; scans may need local OCR and language
 data. See digest's runtime reference for selection, isolation, and failure behavior.
 
-For the separate image-first ingestion engine or course validator, use that
-installed skill's requirements in a dedicated environment, only if invoking its
-helper. From the consumer workspace, for example:
+For the Clew course validator, use the consuming Clew project's existing uv
+configuration, Python and lockfile, not a skill-local or global environment.
+Only when a helper dependency is missing, add the requirements to that authorized
+project, then invoke the validator:
 
 ```powershell
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r .agents\skills\content-ingest\requirements.txt
-.\.venv\Scripts\python.exe -m pip install -r .agents\skills\course-content\requirements.txt
+uv add --project "<Clew project>" --requirements "<installed course-content>\requirements.txt"
+uv run --project "<Clew project>" python "<installed course-content>\scripts\validate_clew.py" --vault "<vault>" --course mechanics
 ```
 
-Run only the install commands for skills you have installed and helpers you need.
-See each skill's instructions for invocation and limitations. Source packages
-live only in `skills/`; edit those rather than generated installations.
+The dependency command edits the consumer's manifest and lockfile; get approval
+if those changes are not already authorized. Do not bypass project constraints
+with another environment. See the validator's reference for strict mode and
+diagnostics. The separate producer runtimes remain documented by their own
+skills until those skills are updated. Source packages live only in `skills/`;
+edit those rather than generated installations.
 
 ## Maintaining guidance
 
