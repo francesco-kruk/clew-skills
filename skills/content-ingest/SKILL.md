@@ -16,6 +16,9 @@ metadata:
 
 Use the bundled [entry point](scripts/ingest.py); do not replace this pipeline
 with ad-hoc `pypdf`, `pdfminer`, OCR, or an LLM extraction script.
+This is an explicitly selected optional route, not the teacher workspace's
+default digest workflow or a default Clew student dependency. Current Clew
+does not provide a `src.ingest` wrapper; invoke this skill's helper directly.
 Alexandra Pletea authored the original engine. See
 [provenance and migration scope](references/provenance.md) and [MIT license](LICENSE).
 
@@ -81,20 +84,22 @@ No PDFs in a directory is a warning and exit `0`, not proof of an extracted cour
 - Keep failed/partial output in staging and mark it incomplete. No atomic
   rollback, source-fidelity validator, OCR, or automatic repair is provided.
 
-## Publishing is a separate handoff
+## Legacy course publishing is a separate handoff
 
 Extraction success is **not** course readiness, even though legacy frontmatter
-contains `type: course-content`. Load the installed **`course-content`** skill
-and apply its current structure contract before any course publication.
+contains `type: course-content`. For explicitly requested legacy hub/package
+publication, load the installed **`course-content`** skill and apply its legacy
+structure and package contracts. This is not a prerequisite for reading a
+reviewed portable Markdown bundle; standalone editable conversion uses `digest`.
 Publish one canonical `courses/<course>/hub.md`, ordered chapter links and
 backlinks, and one complete note per actual chapter in
 `courses/<course>/chapters/`; verify asset targets,
 metadata, anchors, provenance, and limitations. Extraction's heuristic chapter
 boundaries must be reconciled with actual chapters, not promoted uncritically.
 
-Run the **course-content validator** documented by that skill against the
-explicit authorized vault/course roots after assembly; fix structural errors
-before handoff. If the skill or its validator is unavailable, report publishing
-as blocked and retain extraction artifacts only. Never substitute an extractor
+Run the **course-content validator** documented by that skill with `--package`
+pointing to the assembled package directory; fix structural errors
+before handoff. If the skill or its validator is unavailable, report legacy
+publishing as blocked and retain extraction artifacts only. Never substitute an extractor
 exit code for course validation. See the
 [publishing checklist](references/publishing.md).

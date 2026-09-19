@@ -6,16 +6,23 @@ Python 3.10 or newer is required. Use a dedicated environment; no package
 installation, editable repository install, `PYTHONPATH`, or source checkout is
 needed beyond the four dependencies declared in `requirements.txt`.
 
-From a workspace containing the skill (PowerShell):
+From a consumer workspace with `content-ingest` separately installed by APM
+(PowerShell), only when invoking this helper and its dependencies are missing:
 
 ```powershell
-python -m venv '.\skills\content-ingest\.venv'
-& '.\skills\content-ingest\.venv\Scripts\python.exe' -m pip install -r '.\skills\content-ingest\requirements.txt'
-$python = (Resolve-Path '.\skills\content-ingest\.venv\Scripts\python.exe').Path
-$ingest = (Resolve-Path '.\skills\content-ingest\scripts\ingest.py').Path
+python -m venv '.\.venv-content-ingest'
+& '.\.venv-content-ingest\Scripts\python.exe' -m pip install -r '.\.agents\skills\content-ingest\requirements.txt'
+$python = (Resolve-Path '.\.venv-content-ingest\Scripts\python.exe').Path
+$ingest = (Resolve-Path '.\.agents\skills\content-ingest\scripts\ingest.py').Path
 & $python $ingest --help
 & $python $ingest 'D:\Authorized PDFs' -o 'D:\Staging Area\markdown' -a 'D:\Staging Area\assets' -c 'Calculus' -d 'Mathematics'
 ```
+
+For source development in `clew-skills`, use `.\skills\content-ingest\` in place
+of `.\.agents\skills\content-ingest\` for the requirements and launcher paths.
+Keep the environment outside the installed skill and deliverable. Neither the
+digest-only teacher setup nor the default Clew student setup supplies this helper.
+There is no current Clew `python -m src.ingest...` wrapper.
 
 On POSIX use the environment's `bin/python` and native absolute paths. The
 launcher imports its adjacent `clew_ingest` package, independently of the caller's
