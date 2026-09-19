@@ -1,10 +1,11 @@
-# Clew — Advanced learner model (advanced-v1, legacy)
+# Clew — Advanced learner model (archived design)
 
-This preserved full profile is **not the default**. Select it only explicitly,
-with an existing compatible configuration and the resolutions required by
-[advanced clarification gates](advanced-clarification-gates.md). Its numerical
-policies, schema gaps and schedules do not apply to
-[evidence-first-v1](learner-model-spec.md). There is no automatic migration.
+**Non-operational historical/future design, not a supported runtime profile.**
+This document preserves earlier proposals, including unresolved schemas and
+numerical policies. Its imperative language and claims below describe that
+design, not current Clew behavior. It is outside the installable skill package.
+Use the current [learning memory contract](../../../skills/learner-model/references/learner-model-spec.md)
+instead. Existing old models need an explicit migration decision.
 
 **Complete specification of the model, its objects, its lifecycles, and its guarantees.**
 
@@ -12,7 +13,7 @@ Clew builds a persistent, evidence-based model of an individual learner and uses
 material that learner receives. This document defines what that model holds, how it changes, what it
 refuses to hold, and what the learner can always do to it.
 
-This is the full authoritative learner-model specification migrated from Clew, with the storage
+The historical specification below was migrated from Clew, with the storage
 and processing policy updated for hosted GitHub Copilot task use. Storage is an explicitly
 identified external local vault, not the skill package or its repository clone. Resolve the vault,
 model, and course roots before access; paths such as `model/...` and `courses/...` below are logical
@@ -59,7 +60,7 @@ Six object types. The first four are the learner model proper; `Session` is the 
 Course hubs (`courses/<course>/hub.md`) are **not** part of the learner model. They are read-only
 course metadata supplying `primary_domains`, `prerequisite_domains`, and the concept index. The model
 joins to them by course name.
-The [course-content skill](../../course-content/SKILL.md) defines the shared course
+The [course-content skill](../../../skills/course-content/SKILL.md) defines the shared course
 structure and read-only lookup contract; course chapters and concept summaries are not learner records.
 
 **Why domain and not course.** A learner's connected course changes; the model must survive that.

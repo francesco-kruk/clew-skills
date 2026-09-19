@@ -1,4 +1,10 @@
-# Advanced-v1 clarification gates (legacy only)
+# Advanced clarification gates (archived design)
+
+**Non-operational historical/future design, not a supported runtime.** These
+unresolved issues explain the archived proposal; they are not current write
+gates or an invitation to enable an advanced profile. This file is outside the
+installable package. Use the current
+[learning memory contract](../../../skills/learner-model/references/learner-model-spec.md).
 
 The [advanced specification](advanced-model-spec.md) does not yet define
 a complete executable storage contract. These are reasons to ask, not rules to

@@ -8,7 +8,7 @@ shared as individual [APM](https://github.com/microsoft/apm) packages.
 | [course-content](skills/course-content/SKILL.md) | Read selected portable Markdown; optionally validate legacy course packages. |
 | [content-ingest](skills/content-ingest/SKILL.md) | Image-first PDF extraction into local Markdown and assets. |
 | [digest](skills/digest/SKILL.md) | Standalone, faithful PDF-to-Markdown conversion; optional Clew/Obsidian export. |
-| [learner-model](skills/learner-model/SKILL.md) | Maintain versioned evidence-first Markdown goals, work, errors, preferences and sessions. |
+| [learner-model](skills/learner-model/SKILL.md) | Keep one grounded learner summary and useful dated session notes; recall alone makes no writes. |
 
 ## Install
 
@@ -51,25 +51,33 @@ than inventing concepts. A course-only lookup does not open the learner model.
 Copied teacher sources stay read-only unless the student explicitly asks to edit
 them; personal work stays separate.
 
-`learner-model` 2.x defaults to
-[evidence-first-v1](skills/learner-model/references/learner-model-spec.md):
-`model/profile.md`, a small routing `model/index.md`, and Markdown notes for
-goals, observations, factual errors, confirmed preferences, sessions and changes.
-Supplied work and generated personal output live in `artifacts/`. A genuine
-goal/attempt creates actual evidence and a session; giving only a path prompts
-for a goal. Stable IDs, source links and append-only change history support later
-sessions without numerical mastery/confidence scores, inferred preferences or
-automatic schedules. No adaptation is a valid state; a current presentation
-request is not proof of benefit or a standing preference.
+`learner-model` 3.x uses
+[learning memory v1](skills/learner-model/references/learner-model-spec.md):
+one readable `model/learner.md` with `<!-- clew-learning-memory: v1 -->`, plus
+`model/sessions/YYYY-MM-DD-topic.md` only for meaningful work worth retaining.
+Goals, confirmed preference scopes and short learning notes carry dates and
+ordinary evidence links across courses. The original attempt lives in one
+authoritative note, not several records. `artifacts/` is optional for useful
+generated work or substantial supplied work.
 
-Unknown/old models and reserved-directory collisions require clarification, not
-automatic migration. Corrections and confirmed scoped tombstones alter the
-effective view without erasing history or hosted context. File tools re-read
-changes conservatively, but this is agent guidance, not a transactional backend,
-filesystem security mechanism or provider-deletion guarantee. The
-[advanced-v1 full model](skills/learner-model/references/advanced-model-spec.md)
-and its unresolved numerical/schema policies remain an explicitly selected,
-distinct legacy profile, not prerequisites for initial evidence writes.
+A compact goal + attempt + confirmed preference needs at most two model notes;
+a goal alone can be remembered in the summary without a session. Giving only a
+path creates nothing. Bare "continue", recall and inspection make no model or
+artifact writes. There is no UUID graph, separate marker/index, mandatory
+taxonomy, per-observation files, numerical mastery/confidence score, inferred
+standing preference or automatic schedule.
+
+Corrections directly maintain the summary and authorized mistaken notes without
+rewriting actual prior answers. Forgetting distinguishes stop-use instructions
+from explicitly confirmed scoped local deletion; neither erases hosted context
+or backups. File tools re-read changes conservatively but provide no transaction
+or filesystem-security guarantee. Old evidence-first/advanced layouts, unknown
+markers and reserved-directory collisions need an explicit migration/ownership
+decision, never automatic adoption.
+
+The [advanced design archive](docs/archive/learner-model/advanced-model-spec.md)
+preserves historical/future ideas **outside the installable package**. It is
+not an alternate supported runtime and supplies no current operational rules.
 
 To test an unpublished checkout, run APM from a separate empty consumer directory
 with the absolute path to the edited package (replace the example path):

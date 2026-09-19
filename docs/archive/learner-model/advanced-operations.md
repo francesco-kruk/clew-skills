@@ -1,9 +1,11 @@
-# Advanced-v1 operations (explicit legacy profile only)
+# Advanced operations (archived design)
 
-These preserved operations apply only to the
-[advanced specification](advanced-model-spec.md), never the default
-[evidence-first-v1 profile](learner-model-spec.md). They are not a second skill
-entrypoint. Existing schema gaps still block affected advanced writes.
+**Non-operational historical/future design, not an alternate supported runtime.**
+The preserved instructions below accompanied the
+[advanced specification](advanced-model-spec.md). Do not execute them as current
+learner-model guidance. This archive is outside the installable skill package;
+the current [learning memory contract](../../../skills/learner-model/references/learner-model-spec.md)
+supersedes it. Existing old models need an explicit migration decision.
 
 Maintain an evidence-backed model of what this learner knows and which working
 conditions help them. Keep history, uncertainty, and learner control intact.
@@ -13,7 +15,7 @@ effect of operating the model.
 ## Establish the operating context
 
 1. Read [the advanced specification](advanced-model-spec.md).
-   It is bundled with this skill; no original Clew checkout is required.
+   Historically this was bundled; it is now archive-only, not installed guidance.
 2. Establish the authorized external vault root, explicit model root and course
    root (if used), learner, requested operation, current date/time, connected
    course (if any), and actual capability tier. The specification's
