@@ -5,10 +5,10 @@ shared as individual [APM](https://github.com/microsoft/apm) packages.
 
 | Skill | Purpose |
 | --- | --- |
-| [course-content](skills/course-content/SKILL.md) | Read and navigate courses; validate course packages. |
+| [course-content](skills/course-content/SKILL.md) | Read selected portable Markdown; optionally validate legacy course packages. |
 | [content-ingest](skills/content-ingest/SKILL.md) | Image-first PDF extraction into local Markdown and assets. |
 | [digest](skills/digest/SKILL.md) | Standalone, faithful PDF-to-Markdown conversion; optional Clew/Obsidian export. |
-| [learner-model](skills/learner-model/SKILL.md) | Maintain learner-controlled evidence, goals and adaptations. |
+| [learner-model](skills/learner-model/SKILL.md) | Maintain versioned evidence-first Markdown goals, work, errors, preferences and sessions. |
 
 ## Install
 
@@ -34,6 +34,43 @@ Keep both targets: a Copilot-only install can skip the skill entrypoints.
 Installed skills appear under `.agents/skills/` in the consumer workspace.
 This repository has no root aggregate package; install skills by their paths.
 
+## Student workflow
+
+A teacher uses digest in the teacher workspace (`clew-content`) to convert an
+authorized PDF and commits the complete portable bundle. The student creates
+their own external local vault and manually copies the whole bundle, preserving
+notes, images and reports. The student clones Clew, restores its pinned skills,
+and configures that vault path once in Clew's ignored `.clew.local.json`
+(`version: 1`, `vault: <absolute path>`). Configuration alone creates no learning
+records. No course importer, catalog, manifest, hub or running Obsidian is needed.
+
+`course-content` reads the selected bundle/note as-is, using ordinary relative
+Markdown links and existing wikilinks. An index/README/hub is useful when present,
+never required. It cites exact notes/headings and reports unknown metadata rather
+than inventing concepts. A course-only lookup does not open the learner model.
+Copied teacher sources stay read-only unless the student explicitly asks to edit
+them; personal work stays separate.
+
+`learner-model` 2.x defaults to
+[evidence-first-v1](skills/learner-model/references/learner-model-spec.md):
+`model/profile.md`, a small routing `model/index.md`, and Markdown notes for
+goals, observations, factual errors, confirmed preferences, sessions and changes.
+Supplied work and generated personal output live in `artifacts/`. A genuine
+goal/attempt creates actual evidence and a session; giving only a path prompts
+for a goal. Stable IDs, source links and append-only change history support later
+sessions without numerical mastery/confidence scores, inferred preferences or
+automatic schedules. No adaptation is a valid state; a current presentation
+request is not proof of benefit or a standing preference.
+
+Unknown/old models and reserved-directory collisions require clarification, not
+automatic migration. Corrections and confirmed scoped tombstones alter the
+effective view without erasing history or hosted context. File tools re-read
+changes conservatively, but this is agent guidance, not a transactional backend,
+filesystem security mechanism or provider-deletion guarantee. The
+[advanced-v1 full model](skills/learner-model/references/advanced-model-spec.md)
+and its unresolved numerical/schema policies remain an explicitly selected,
+distinct legacy profile, not prerequisites for initial evidence writes.
+
 To test an unpublished checkout, run APM from a separate empty consumer directory
 with the absolute path to the edited package (replace the example path):
 
@@ -43,6 +80,13 @@ apm install 'C:\Path\To\clew-skills\skills\digest' --target copilot,agent-skills
 
 This tests local changes; the GitHub installation command uses the published ref,
 not uncommitted files in a checkout.
+
+APM 0.28 cannot resolve `git: parent` from a local-path package. For
+`learner-model` (which uses that preserved sibling dependency), push a commit
+first and test its immutable GitHub package reference in an empty consumer
+workspace, then run `apm install --frozen --target copilot,agent-skills`.
+Do not hand-edit generated consumer files or replace dependency pins to bypass
+that local-install limitation.
 
 ## Standalone PDF conversion
 
@@ -75,12 +119,12 @@ skill or substitutes another format.
 
 | Requested output | Separately required guidance |
 | --- | --- |
-| Clew course export | `course-content` and its current structure/distribution contracts, including its Obsidian note-writing prerequisites. |
+| Explicit legacy Clew hub/package export | `course-content` and its preserved structure/distribution contracts, including its Obsidian note-writing prerequisites. |
 | Obsidian-specific notes | `obsidian-markdown`; no Clew package or running app required. |
 | JSON Canvas overview | `json-canvas`, with an explicit destination root; not created merely because a graph might be useful. |
 
 If a prerequisite is missing, digest explains it and pauses that mode. To choose
-Clew export, the user can separately install its package:
+legacy Clew export, the user can separately install its package:
 
 ```powershell
 apm install francesco-kruk/clew-skills/skills/course-content --target copilot,agent-skills
