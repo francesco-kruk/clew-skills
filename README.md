@@ -9,6 +9,7 @@ shared as individual [APM](https://github.com/microsoft/apm) packages.
 | [content-ingest](skills/content-ingest/SKILL.md) | Image-first PDF extraction into local Markdown and assets. |
 | [digest](skills/digest/SKILL.md) | Standalone, faithful PDF-to-Markdown conversion; optional Clew/Obsidian export. |
 | [learner-model](skills/learner-model/SKILL.md) | Keep one grounded learner summary and useful dated session notes; recall alone makes no writes. |
+| [teach](skills/teach/SKILL.md) | Guide a source-grounded attempt, static visual, actual retry and authorized saved evidence; reuse it tentatively in fresh sessions. |
 
 ## Install
 
@@ -25,8 +26,17 @@ workspace is not permission to remove skills already installed there.
 
 Replace `digest` with another skill listed above to select a different package.
 Those packages retain their existing dependencies, which APM resolves
-automatically. Install `learner-model` separately when learner-record access is
-wanted; the other skills do not depend on it.
+automatically. For the student teaching loop, install `teach`:
+
+```powershell
+apm install francesco-kruk/clew-skills/skills/teach --target copilot,agent-skills
+```
+
+`teach` 1.0.0 composes unchanged `course-content` 2.0.0 and `learner-model`
+3.0.0 through sibling `git: parent` dependencies. It adds no MCP, runtime library
+or image-service dependency; course-content's existing Obsidian skill dependencies
+remain transitive. Installation does not authorize memory access or initialize
+records. For memory-only use, install `learner-model` separately.
 For a reproducible install, append `#<published-full-commit-sha>` to the package
 reference and retain the consumer's generated lockfile.
 
@@ -53,6 +63,31 @@ never required. It cites exact notes/headings and reports unknown metadata rathe
 than inventing concepts. A course-only lookup does not open the learner model.
 Copied teacher sources stay read-only unless the student explicitly asks to edit
 them; personal work stays separate.
+
+For active tutoring, ask **"Use teach with these notes"**, select the source and
+provide your actual attempt. `teach` explains an observed error or tentative
+hypothesis, asks a diagnostic question only when it would change the help,
+selects a relevant static visual with a short rationale, then asks for a retry
+and waits. It distinguishes supplied answer guidance from agent-derived
+assessment, records help and uncertainty, and never treats an offered explanation
+or one assisted retry as lasting learning.
+
+The host must supply an actually working static raster preview and a suitable
+authorized image, or a genuinely available approved generator. See the
+[portable display procedure](skills/teach/references/static-visual.md): keep
+explanation Markdown and its raster together in an authorized directory, check
+visible/legible output, and reopen after edits when necessary. Installing the
+skill does not install a renderer or generator. A text fallback can continue
+tutoring, but cannot pass the visual-demo criterion.
+
+When meaningful recording is authorized, teach delegates to `learner-model`
+and reads back changed records and evidence links before claiming a save.
+Inspect those Markdown records in the external vault through an authorized
+editor, preview or bounded file view, never a private-record copy in the repo.
+In a genuinely fresh session/topic, teach can retrieve relevant saved evidence,
+explain why it may apply and collect a new outcome rather than assume transfer.
+No-save, declined memory and scoped stop-use remain binding; ephemeral tutoring
+does not authorize temporary record/artifact writes.
 
 `learner-model` 3.x uses
 [learning memory v1](skills/learner-model/references/learner-model-spec.md):
@@ -93,7 +128,7 @@ This tests local changes; the GitHub installation command uses the published ref
 not uncommitted files in a checkout.
 
 APM 0.28 cannot resolve `git: parent` from a local-path package. For
-`learner-model` and `content-ingest` (which use that preserved sibling dependency),
+`teach`, `learner-model` and `content-ingest` (which use sibling dependencies),
 push a commit first and test its immutable GitHub package reference in an empty consumer
 workspace, then run `apm install --frozen --target copilot,agent-skills`.
 Do not hand-edit generated consumer files or replace dependency pins to bypass
@@ -194,6 +229,16 @@ Changes inside a skill package reach pinned consumers only after an explicit APM
 pin refresh and restore; identify affected packages before proposing that update.
 A root README-only correction does not require repinning unrelated consumers.
 Preserve dependency pins, licenses, and historical attribution when updating prose.
+
+### Teaching acceptance
+
+Use the [human-run teach cases](tests/teach-cases.md) with authorized synthetic
+data and reviewed fixtures. Verify immutable package resolution and frozen
+restoration through APM 0.28.0 in a clean consumer. The real two-session
+attempt/visual/retry/saved-evidence/fresh-recall walkthrough is the demo acceptance;
+case documentation, text assertions and renderer tests are not evidence that it
+passed or that learning improved. Supplied-image success does not prove image
+generation. This is agent-mediated guidance, not a deterministic tutoring engine.
 
 ## Privacy and licenses
 
