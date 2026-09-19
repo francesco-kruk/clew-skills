@@ -9,7 +9,9 @@ different deliverable. Portable conversion does not need these skills.
 
 ## Clew course export
 
-On an explicit request to export a Clew course, load installed `course-content`,
+This is the preserved **legacy hub/package export**, not a requirement for using
+ordinary portable bundles in the student Clew workflow.
+On an explicit request to export a legacy Clew course, load installed `course-content`,
 its `references/structure.md`, and (for distribution) its
 `references/package-contract.md`. These remain authoritative; do not freeze a
 copy of the contract in digest. Follow its writer prerequisites, including
