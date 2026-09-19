@@ -7,7 +7,7 @@ shared as individual [APM](https://github.com/microsoft/apm) packages.
 | --- | --- |
 | [course-content](skills/course-content/SKILL.md) | Read and navigate courses; validate course packages. |
 | [content-ingest](skills/content-ingest/SKILL.md) | Image-first PDF extraction into local Markdown and assets. |
-| [digest](skills/digest/SKILL.md) | Faithful editable document reconstruction and course export. |
+| [digest](skills/digest/SKILL.md) | Standalone, faithful PDF-to-Markdown conversion; optional Clew/Obsidian export. |
 | [learner-model](skills/learner-model/SKILL.md) | Maintain learner-controlled evidence, goals and adaptations. |
 
 ## Install
@@ -18,9 +18,15 @@ With **APM 0.28.0**, run this in the workspace where you want to use a skill:
 apm install francesco-kruk/clew-skills/skills/digest --target copilot,agent-skills
 ```
 
-Replace `digest` with any skill listed above. APM resolves sibling and upstream
-skill dependencies automatically. Install `learner-model` separately when
-learner-record access is wanted; the other skills do not depend on it.
+**Digest installs only digest.** It has no mandatory skill or MCP dependencies:
+`course-content`, `obsidian-markdown`, `json-canvas`, and `obsidian-cli` are not
+installed by this command in a clean consumer workspace. Upgrading an existing
+workspace is not permission to remove skills already installed there.
+
+Replace `digest` with another skill listed above to select a different package.
+Those packages retain their existing dependencies, which APM resolves
+automatically. Install `learner-model` separately when learner-record access is
+wanted; the other skills do not depend on it.
 For a reproducible install, append `#<published-full-commit-sha>` to the package
 reference and retain the consumer's generated lockfile.
 
@@ -28,11 +34,87 @@ Keep both targets: a Copilot-only install can skip the skill entrypoints.
 Installed skills appear under `.agents/skills/` in the consumer workspace.
 This repository has no root aggregate package; install skills by their paths.
 
+To test an unpublished checkout, run APM from a separate empty consumer directory
+with the absolute path to the edited package (replace the example path):
+
+```powershell
+apm install 'C:\Path\To\clew-skills\skills\digest' --target copilot,agent-skills
+```
+
+This tests local changes; the GitHub installation command uses the published ref,
+not uncommitted files in a checkout.
+
+## Standalone PDF conversion
+
+Ask digest to convert an authorized PDF into an external output directory, for
+example: "Use digest to convert my authorized worksheet PDF to faithful, editable
+Markdown in this output folder." A teacher does not need a Clew course, an
+Obsidian vault, a running app, or any other skill.
+
+The default bundle contains an `index.md`, source-organized chapter/section notes,
+needed images, and coverage/verification reports. Notes and images use relative
+Markdown links, so move the whole bundle together and open `index.md` in a Markdown
+editor. Equations remain editable LaTeX; rendered math needs a compatible viewer.
+Source-page citations distinguish physical pages from printed labels. Include the
+original PDF only when authorized; otherwise retain visible citations and its hash
+without broken source links.
+
+Digest preserves complete explanations, examples, exercises, supplied answers,
+equations, and figures rather than summarizing them. It verifies pages in bounded
+batches and explicitly labels unreadable/image-only regions. This is an
+agent-guided workflow, not a bundled deterministic converter or a guarantee that
+every scanned equation can become editable text. See its
+[quality gates](skills/digest/references/quality-and-linking.md) and
+[local runtime setup](skills/digest/references/runtime.md).
+
+### Explicit optional integrations
+
+An installed integration or a document called a "course" does not select a mode.
+Ask for the desired export explicitly; digest never silently installs a missing
+skill or substitutes another format.
+
+| Requested output | Separately required guidance |
+| --- | --- |
+| Clew course export | `course-content` and its current structure/distribution contracts, including its Obsidian note-writing prerequisites. |
+| Obsidian-specific notes | `obsidian-markdown`; no Clew package or running app required. |
+| JSON Canvas overview | `json-canvas`, with an explicit destination root; not created merely because a graph might be useful. |
+
+If a prerequisite is missing, digest explains it and pauses that mode. To choose
+Clew export, the user can separately install its package:
+
+```powershell
+apm install francesco-kruk/clew-skills/skills/course-content --target copilot,agent-skills
+```
+
+That optional package still brings its existing `obsidian-markdown`, `json-canvas`,
+and `obsidian-cli` dependencies; it is **not** needed for standalone digest.
+Obsidian-only or Canvas-only users can separately install the corresponding
+`kepano/obsidian-skills/skills/obsidian-markdown` or
+`kepano/obsidian-skills/skills/json-canvas` package with the same targets (the
+integration revision used here is recorded in `skills/course-content/apm.yml`).
+See [integration behavior](skills/digest/references/optional-integrations.md).
+The separate `content-ingest` package remains the unchanged image-first route,
+not an automatic digest dependency or fallback.
+
 ## Python helpers
 
-APM installs skills, not Python dependencies. If you use PDF ingestion or the
-course validator, install the corresponding runtime requirements in a dedicated
-environment. From the consumer workspace, for example:
+APM installs skills, not PDF extraction/rendering/OCR tools. For digest, probe
+existing tools, choose a method, then install only missing runtime packages needed
+for that method in a task-local environment outside the deliverable. For example,
+**only when PyMuPDF is the chosen method and is missing**:
+
+```powershell
+python -m venv .venv-digest
+.\.venv-digest\Scripts\python.exe -m pip install pymupdf
+```
+
+Do not install every PDF backend, OCR engine, or another skill's requirements for
+standalone digest. MarkItDown is optional; scans may need local OCR and language
+data. See digest's runtime reference for selection, isolation, and failure behavior.
+
+For the separate image-first ingestion engine or course validator, use that
+installed skill's requirements in a dedicated environment, only if invoking its
+helper. From the consumer workspace, for example:
 
 ```powershell
 python -m venv .venv

@@ -1,17 +1,13 @@
 name: digest
-version: 1.0.0
-description: Faithful editable PDF reconstruction and course export.
+version: 1.2.0
+description: Standalone faithful PDF-to-Markdown conversion with optional integrations.
 author: Clew contributors
 license: MIT
 type: hybrid
 targets:
   - agent-skills
 dependencies:
-  apm:
-    - git: parent
-      path: skills/course-content
-    - kepano/obsidian-skills/skills/obsidian-markdown#8ccef29ae8624eccc734e77ced4a6e54baf5d83a
-    - kepano/obsidian-skills/skills/json-canvas#8ccef29ae8624eccc734e77ced4a6e54baf5d83a
+  apm: []
   mcp: []
 includes: auto
 scripts: {}
