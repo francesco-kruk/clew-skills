@@ -6,6 +6,8 @@ Commit: 8ccef29ae8624eccc734e77ced4a6e54baf5d83a
 Installed files: .agents/skills/json-canvas/, .agents/skills/obsidian-cli/,
                  .agents/skills/obsidian-markdown/ beneath the APM consumer root.
 These dependencies are installed by APM, not vendored in this repository.
+They belong to course-content and packages depending on it, or to separately
+selected integrations. Standalone digest does not install these dependencies.
 
 MIT License
 
