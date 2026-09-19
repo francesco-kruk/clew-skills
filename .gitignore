@@ -1,0 +1,7 @@
+apm_modules/
+.venv*/
+.apm-smoke/
+.ci-scratch/
+__pycache__/
+*.py[cod]
+.pytest_cache/
