@@ -6,9 +6,10 @@ This reference is self-contained for portable Markdown. No other skill, vault,
 app, graph, or course package is needed. Apply coverage, fidelity, reporting, and
 preservation gates to every output mode. Apply integration-specific gates only
 when that output is explicitly requested; see
-[optional integrations](optional-integrations.md). For a Clew export, installed
-`course-content` owns the structure; "index" in the gates below means its canonical
-hub. Portable output is not automatically a compliant Clew course.
+[optional integrations](optional-integrations.md). For an explicit legacy Clew
+export, installed `course-content` owns the structure; "index" in the gates below
+means its canonical hub. Portable output need not conform to that legacy package contract to be read
+by student Clew; default reading accepts the copied Markdown bundle as-is.
 
 Digest is the editable conversion/recovery route. The separate optional
 `content-ingest` skill retains the image-first workflow. Do not apply digest's

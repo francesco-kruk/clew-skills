@@ -6,6 +6,11 @@ The engine and formatter were migrated from `src/ingest/` in
 `.agents/skills/content-ingest/SKILL.md` and
 `.agents/agents/content-ingest.agent.md`.
 
+Those paths describe the historical source, not current invocation instructions.
+The standalone engine now lives in this package; current Clew no longer provides
+the `src.ingest` wrapper. The teacher's default conversion route is separately
+owned by `digest`; this image-first helper remains an explicit optional route.
+
 **Alexandra Pletea authored the original ingestion implementation**, including
 image-first extraction, per-chapter output, and formula image positioning.
 Relevant history includes `b4aabb1`, `c9d6f7f`, `78a797f`, and `e515efd`.

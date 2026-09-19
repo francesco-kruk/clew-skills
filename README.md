@@ -36,13 +36,16 @@ This repository has no root aggregate package; install skills by their paths.
 
 ## Student workflow
 
-A teacher uses digest in the teacher workspace (`clew-content`) to convert an
-authorized PDF and commits the complete portable bundle. The student creates
-their own external local vault and manually copies the whole bundle, preserving
+A teacher uses digest in the [teacher workspace](https://github.com/francesco-kruk/clew-content)
+to convert an authorized PDF, reviews the output, and commits the complete
+portable bundle. The student creates their own external local vault and manually
+copies the whole bundle, preserving
 notes, images and reports. The student clones Clew, restores its pinned skills,
 and configures that vault path once in Clew's ignored `.clew.local.json`
 (`version: 1`, `vault: <absolute path>`). Configuration alone creates no learning
-records. No course importer, catalog, manifest, hub or running Obsidian is needed.
+records. Follow [Clew's setup instructions](https://github.com/francesco-kruk/clew)
+for APM restore and the `src.vault.cli configure` / `status` commands.
+No course importer, catalog, manifest, hub or running Obsidian is needed.
 
 `course-content` reads the selected bundle/note as-is, using ordinary relative
 Markdown links and existing wikilinks. An index/README/hub is useful when present,
@@ -90,8 +93,8 @@ This tests local changes; the GitHub installation command uses the published ref
 not uncommitted files in a checkout.
 
 APM 0.28 cannot resolve `git: parent` from a local-path package. For
-`learner-model` (which uses that preserved sibling dependency), push a commit
-first and test its immutable GitHub package reference in an empty consumer
+`learner-model` and `content-ingest` (which use that preserved sibling dependency),
+push a commit first and test its immutable GitHub package reference in an empty consumer
 workspace, then run `apm install --frozen --target copilot,agent-skills`.
 Do not hand-edit generated consumer files or replace dependency pins to bypass
 that local-install limitation.
@@ -177,6 +180,20 @@ python -m venv .venv
 Run only the install commands for skills you have installed and helpers you need.
 See each skill's instructions for invocation and limitations. Source packages
 live only in `skills/`; edit those rather than generated installations.
+
+## Maintaining guidance
+
+This repository owns the skill instructions, references, and bundled helpers.
+The teacher repository owns reviewed portable content; Clew owns student setup
+and vault configuration, not PDF extraction or course import wrappers.
+The optional image-first helper is invoked directly from `content-ingest`;
+current Clew has no `src.ingest` or `src.courses` entrypoint.
+
+Edit source files here, not consumers' generated `.agents/skills/` copies.
+Changes inside a skill package reach pinned consumers only after an explicit APM
+pin refresh and restore; identify affected packages before proposing that update.
+A root README-only correction does not require repinning unrelated consumers.
+Preserve dependency pins, licenses, and historical attribution when updating prose.
 
 ## Privacy and licenses
 

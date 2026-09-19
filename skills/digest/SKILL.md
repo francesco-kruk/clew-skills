@@ -169,7 +169,8 @@ needed by the chosen method, in an isolated environment outside the deliverable.
    synthesis, retain full chapter content, and explain source-grounded relationships.
    A portable concept map is a Markdown note with relative links, not a required
    graph or Canvas. Use optional integration rules only for explicitly selected
-   formats; Clew uses its canonical hub instead of the portable index.
+   formats; explicit legacy Clew export uses its canonical hub instead of the
+   portable index. Default student Clew reading accepts portable bundles.
 
 ## 5. Verify against the source
 
@@ -212,7 +213,8 @@ or live Obsidian testing unless that is true.
 - Give the user the final path/link, what was split and interconnected, exact import
   location when relevant, and important remaining image-only regions or fidelity limitations.
   Mention validation detail only when requested.
-- For a course-consuming skill, identify the final hub and course destination,
+- For a course-consuming skill, identify the final bundle and entry note
+  (the hub and course destination for explicit legacy export),
   and pass source limitations plus the conversion-report location. Let
   `course-content` perform subsequent bounded content lookups; do not require
   tutoring skills to understand the extraction manifest to read a chapter.
