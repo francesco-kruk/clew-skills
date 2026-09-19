@@ -96,11 +96,5 @@ Run the **course-content validator** documented by that skill against the
 explicit authorized vault/course roots after assembly; fix structural errors
 before handoff. If the skill or its validator is unavailable, report publishing
 as blocked and retain extraction artifacts only. Never substitute an extractor
-exit code or these synthetic tests for course validation. See the
+exit code for course validation. See the
 [publishing checklist](references/publishing.md).
-
-## Package checks
-
-[Synthetic regression tests](tests/test_ingest.py) exercise the actual engine
-and CLI. [Evaluation scenarios](evals/scenarios.md) cover agent boundaries and
-truthful claims. Neither uses real course or learner records.

@@ -1,7 +1,6 @@
+.agents/
 apm_modules/
+apm.lock.yaml
 .venv*/
-.apm-smoke/
-.ci-scratch/
 __pycache__/
 *.py[cod]
-.pytest_cache/
